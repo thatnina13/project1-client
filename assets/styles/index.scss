@@ -1,1 +1,39 @@
 @import '~bootstrap/scss/bootstrap';
+
+body {
+  display: grid;
+  min-height: 100vh;
+}
+.after-auth {
+  display:none;
+}
+
+.board {
+  margin: 0 auto;
+  max-height: calc(100vh - 50px);
+  max-width: calc(100vh - 50px);
+  background-image:
+  url('https://pixel.nymag.com/imgs/daily/vulture/2016/02/12/recaps/12-bobs-burgers.w700.h700.jpg');
+    background-size: cover;
+}
+
+.box {
+  border-bottom: 1px solid black;
+  border-right: 1px solid black;
+  display: flex;
+  min-height: calc(100% / 3);
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  color: white;
+  text-shadow: 2px 2px rgba(0, 0, 0, .25);
+  font-size: 12vh;
+}
+
+.box:nth-child(3n) {
+  border-right: 0;
+}
+
+.box:nth-last-child(-1n + 3) {
+  border-bottom: 0;
+}
