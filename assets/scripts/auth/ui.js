@@ -46,7 +46,7 @@ const onchangePasswordSuccess = () => {
 }
 
 const onchangePasswordSuccessFailure = () => {
-  onFailure('...Sucks to suck...')
+  onFailure('..try again..')
 }
 const onsignOutSuccess = () => {
   onSuccess('Adios')
