@@ -40,9 +40,12 @@ const signOut = () => {
 }
 const newGame = formData => {
   return $.ajax({
-    url: config.apiUrl + '/create',
+    url: config.apiUrl + 'games',
     method: 'POST',
-    data: formData
+    data: formData,
+    headers: {
+      Authorization: `Token token=${store.user.token}`
+    }
   })
 }
 

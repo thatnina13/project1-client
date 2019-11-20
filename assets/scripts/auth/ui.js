@@ -54,9 +54,16 @@ const onsignOutSuccess = () => {
   // we need to delete the token
   // the store no longer knows who we are
   store.user = {}
-  $('.after-auth').show()
-  $('.before-auth').hide()
+  $('.after-auth').hide()
+  $('.before-auth').show()
 }
+const onNewGameSuccess = (res) => {
+  store.game = res.game
+  console.log('new game', store.game)
+  onSuccess('you have a new game!')
+}
+// remember for later- store.game.ID
+
 const onsignOutFailure = () => {
   onFailure('something went wrong')
 }
@@ -69,5 +76,6 @@ module.exports = {
   onchangePasswordSuccess,
   onchangePasswordSuccessFailure,
   onsignOutSuccess,
-  onsignOutFailure
+  onsignOutFailure,
+  onNewGameSuccess
 }
