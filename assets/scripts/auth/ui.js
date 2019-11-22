@@ -68,6 +68,8 @@ const onsignOutFailure = () => {
   onFailure('something went wrong')
 }
 
+
+
 module.exports = {
   onSignUpSuccess,
   onSignUpFailure,
