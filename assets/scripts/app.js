@@ -10,4 +10,5 @@ const authEvents = require('./auth/events')
 
 $(() => {
   authEvents.addHandlers()
+  $('.tie_message').hide()
 })

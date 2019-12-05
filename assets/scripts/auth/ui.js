@@ -36,7 +36,6 @@ const onSignInSuccess = (responsedata) => {
   $('.after-auth').show()
   $('.before-auth').hide()
 }
-// hide anything with the CSS class of after aut
 
 const onSignInFailure = () => {
   onFailure('Try again, ya maniac')
@@ -67,8 +66,6 @@ const onNewGameSuccess = (res) => {
 const onsignOutFailure = () => {
   onFailure('something went wrong')
 }
-
-
 
 module.exports = {
   onSignUpSuccess,

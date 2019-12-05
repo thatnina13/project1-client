@@ -40,9 +40,38 @@ const signOut = () => {
 }
 const newGame = formData => {
   return $.ajax({
-    url: config.apiUrl + 'games',
+    url: config.apiUrl + '/games',
     method: 'POST',
     data: formData,
+    headers: {
+      Authorization: `Token token=${store.user.token}`
+    }
+  })
+}
+//
+const updateGame = (id, currentPlayer) => {
+  return $.ajax({
+    url: config.apiUrl + '/games/' + store.game.id,
+    method: 'PATCH',
+    headers: {
+      Authorization: `Token token=${store.user.token}`
+    },
+    data: {
+      game: {
+        cell: {
+          index: id,
+          value: currentPlayer
+        },
+        over: false
+      }
+    }
+  })
+}
+
+const showGames = () => {
+  return $.ajax({
+    url: config.apiUrl + '/games',
+    method: 'GET',
     headers: {
       Authorization: `Token token=${store.user.token}`
     }
@@ -54,5 +83,7 @@ module.exports = {
   signIn,
   changePassword,
   signOut,
-  newGame
+  newGame,
+  showGames,
+  updateGame
 }
