@@ -38,16 +38,16 @@ const onChangePassword = event => {
     .catch(ui.onchangePasswordFailure)
 }
 
-const onNewGame = event => {
+const onStartGame = event => {
   event.preventDefault()
 
   const form = event.target
   const formData = getFormFeilds(form)
 
-  api.newGame(formData)
+  api.startGame(formData)
     .then((res) => {
       console.log('user started new game', res)
-      ui.onNewGameSuccess(res)
+      ui.onStartGameSuccess(res)
       // in ui file create onsuccess message for new game creation
       // also clear and show tic toe board
     })
@@ -75,89 +75,15 @@ const switchPlayer = () => {
   }
 }
 
-const cellTaken = $box => {
-  // there is is an X or O invalid move
-  // returns true or false
-  return $box.text() !== ''
-  // debugger
+let gameBoard = [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ']
+
+const assignToBoard = (IndexNumId, currentPlayer) => {
+  gameBoard.splice(IndexNumId, 1, currentPlayer)
 }
-
-const onUserMove = (event) => {
-  console.log('click')
-  const $box = $(event.target)
-  console.log('$box is', $box)
-  $box.attr('id')
-  console.log('$box.attr is', $box.attr('id'))
-  // if (cellTaken($box) !== '') {
-    if ($(event.target).text() !== '') {
-    $('.message').text(`Invalid move, try again`)
-  } else {
-    playerIndex($box.attr('id'), currentPlayer)
-    // winnerWinner(store.gameBoard)
-    checkForDraw(gameBoard)
-    console.log(gameBoard)
-    // if (gameOver === true) {
-    //   $('.box').off('click', onUserMove)
-  }
-
-  // add currentplayer to correct index of gameBoard
-  // call check win function
-  // call check tie function
-  // if none of these are true keep playing
-  switchPlayer()
-  $box.css('background', 'transparent').text(currentPlayer)
+const offClick = () => {
+  $('.index').hide()
+  // clearBoard(gameBoard)
 }
-// const onUserMove = (event) => {
-//   console.log('click')
-//   const $box = event.target.id
-//   console.log(event.target.id)
-//   console.log('box is ' + $box)
-//   console.log(gameBoard)
-//   // $box.attr()
-// if ((currentPlayer === 'x') && $(event.target).text() === ' ') {
-//   $(event.target).text('x')
-//   playerIndex($box, 'x')
-//  }
-// }
-
-  // if (cellTaken($box)) {
-  //   $('.message').text(`Invalid move, try again`)
-  // } else {
-  //   playerIndex($box, currentPlayer)
-  //   // winnerWinner(store.gameBoard)
-  //   checkForDraw(gameBoard)
-  //   console.log(gameBoard)
-    // if (gameOver === true) {
-    //   $('.box').off('click', onUserMove)
-  // }
-
-  // add currentplayer to correct index of gameBoard
-  // call check win function
-  // call check tie function
-  // if none of these are true keep playing
-//   switchPlayer()
-//   $box.css('background', 'transparent').text(currentPlayer)
-// }
-
-
-const gameBoard = [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ']
-//
-
-const playerIndex = (box, currentPlayer) => {
-  gameBoard.splice(box, 1, currentPlayer)
-}
-
-const tiedUp = currentElement => {
-  return currentElement !== ''
-}
-
-// const tieGame = gameBoard => {
-//   if (gameBoard.every(tiedUp)) {
-//     console.log("it's a tie")
-//     $('.tie_message').text("Hats off to both of you! It's a tie!!!")
-//     // store.game.over = true
-//   }
-// }
 
 const checkForDraw = gameBoard => {
   if ((gameBoard[0] !== ' ') && (gameBoard[1] !== ' ') && (gameBoard[2] !== ' ') && (gameBoard[3] !== ' ') && (gameBoard[4] !== ' ') && (gameBoard[5] !== ' ') && (gameBoard[6] !== ' ') && (gameBoard[7] !== ' ') && (gameBoard[8] !== ' ')) {
@@ -167,89 +93,135 @@ const checkForDraw = gameBoard => {
   }
 }
 
-
-// const gameOver = gameBoard => {
-//   if (winnerWinner === true || tieGame === true) {
-//     console.log('game over')
-//     $('.box').off('click', onUserMove)
-//   }
-// }
-
 const winnerWinner = (gameBoard) => {
   // const gameBoard = store.gameBoard
   if (gameBoard[0] === 'X' && gameBoard[1] === 'X' && gameBoard[2] === 'X') {
     console.log('x is the winner')
     $('.X_winning_message').html(`Player X is a lean mean tic tac toe machine`)
-    // store.game.over = true
+    offClick()
   } else if (gameBoard[3] === 'X' && gameBoard[4] === 'X' && gameBoard[5] === 'X') {
     $('.X_winning_message').html(`Player X is a lean mean tic tac toe machine`)
-    // store.game.over = true
+    offClick()
   } else if (gameBoard[6] === 'X' && gameBoard[7] === 'X' && gameBoard[8] === 'X') {
     $('.X_winning_message').html(`Player X is a lean mean tic tac toe machine`)
-    // store.game.over = true
+    offClick()
   } else if (gameBoard[0] === 'X' && gameBoard[3] === 'X' && gameBoard[6] === 'X') {
     $('.X_winning_message').html(`Player X is a lean mean tic tac toe machine`)
-    // store.game.over = true
+    offClick()
   } else if (gameBoard[1] === 'X' && gameBoard[4] === 'X' && gameBoard[7] === 'X') {
     $('.X_winning_message').html(`Player X is a lean mean tic tac toe machine`)
-    // store.game.over = true
+    offClick()
   } else if (gameBoard[2] === 'X' && gameBoard[8] === 'X' && gameBoard[5] === 'X') {
     $('.X_winning_message').html(`Player X is a lean mean tic tac toe machine`)
-    // store.game.over = true
+    offClick()
   } else if (gameBoard[0] === 'X' && gameBoard[4] === 'X' && gameBoard[8] === 'X') {
     $('.X_winning_message').html(`Player X is a lean mean tic tac toe machine`)
-    // store.game.over = true
+    offClick()
   } else if (gameBoard[2] === 'X' && gameBoard[4] === 'X' && gameBoard[6] === 'X') {
     $('.X_winning_message').html(`Player X is a lean mean tic tac toe machine`)
-    // store.game.over = true
+    offClick()
   } else if (gameBoard[0] === 'O' && gameBoard[1] === 'O' && gameBoard[2] === 'O') {
     $('.0_winning_message').html(`Player 0 is a rank sentimentalist and tic tac toe master`)
-    // store.game.over = true
+    offClick()
   } else if (gameBoard[3] === 'O' && gameBoard[4] === 'O' && gameBoard[5] === 'O') {
     $('.0_winning_message').html(`Player 0 is a rank sentimentalist and tic tac toe master`)
-    // store.game.over = true
+    offClick()
   } else if (gameBoard[6] === 'O' && gameBoard[7] === 'O' && gameBoard[8] === 'O') {
     $('.0_winning_message').html(`Player 0 is a rank sentimentalist and tic tac toe master`)
-    // store.game.over = true
+    offClick()
   } else if (gameBoard[0] === 'O' && gameBoard[3] === 'O' && gameBoard[6] === 'O') {
     $('.0_winning_message').html(`Player 0 is a rank sentimentalist and tic tac toe master`)
-    store.game.over = true
+    offClick()
   } else if (gameBoard[1] === 'O' && gameBoard[4] === 'O' && gameBoard[7] === 'O') {
     $('.0_winning_message').html(`Player 0 is a rank sentimentalist and tic tac toe master`)
-    // store.game.over = true
+    offClick()
   } else if (gameBoard[2] === 'O' && gameBoard[8] === 'O' && gameBoard[5] === 'O') {
     $('.0_winning_message').html(`Player 0 is a rank sentimentalist and tic tac toe master`)
-    // store.game.over = true
+    offClick()
   } else if (gameBoard[0] === 'O' && gameBoard[4] === 'O' && gameBoard[8] === 'O') {
     $('.0_winning_message').html(`Player 0 is a rank sentimentalist and tic tac toe master`)
-    // store.game.over = true
+    offClick()
   } else if (gameBoard[2] === 'O' && gameBoard[4] === 'O' && gameBoard[6] === 'O') {
     $('.0_winning_message').html(`Player 0 is a rank sentimentalist and tic tac toe master`)
-    // store.game.over = true
+    offClick()
+  }
+}
+const gamePlay = event => {
+  const indexId = event.target.id
+  const indexNumId = () => indexId.replace('index', '')
+  if ((currentPlayer === 'x') && ($(event.target).text() === '')) {
+    $(event.target).html('x')
+    $('.results').html('Turn: O')
+    assignToBoard(indexNumId(), currentPlayer)
+    // console.log('BOARD ARRAY IS', gameBoard)
+    checkForDraw(gameBoard)
+    winnerWinner(gameBoard)
+    onUpdateMove()
+    // checkForDraw(gameBoard)
+    switchPlayer()
+  } else if ((player === 'o') && ($(event.target).text() === '')) {
+    $(event.target).html('o')
+    $('.results').html('Turn: X')
+    assignToBoard(indexNumId(), currentPlayer)
+    // console.log('BOARD ARRAY IS', gameBoard)
+    checkForDraw(gameBoard)
+    winnerWinner(gameBoard)
+    onUpdateMove()
+    // checkForDraw(gameBoard)
+    switchPlayer()
+  } else {
+    $('.results').text('Invalid move!  Click an empty box.')
   }
 }
 
-const gamePlay = event => {
+const onNewGame = event => {
   event.preventDefault()
-  if (gameOver === false) {
-    const id = event.target.id
-    playerIndex(id, currentPlayer)
-    api.updateGame(id, currentPlayer)
-  } else if ((currentPlayer === 'x') && ($(event.target).html() === '')) {
-    // tieGame(store.gameBoard)
-    winnerWinner(store.gameBoard)
-    switchPlayer()
-  } else if ((currentPlayer === 'o') && ($(event.target).html() === '')) {
-    // tieGame(store.gameBoard)
-    winnerWinner(store.gameBoard)
-    switchPlayer()
-  } else {
-    console.log('game play is working')
-    $('#game-message').text('Roll up the sidewalks, game over.')
-  }
+  // console.log('create game button works')
+  // gameBoard.clear(gameBoard)
+  $('.index')
+    .html('')
+    .show()
+    // .clear(gameBoard)
+  $('.results').html(' ')
+  // let gameBoard = [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ']
+  // store.game.clear(store.game)
+  gameStart()
+  // console.log(gameBoard)
+  // NEED TO INCLUDE GAME START HERE?
+  api.NewGame()
+    .then(ui.onNewGameSuccess)
+    .catch(ui.onNewGameFailure)
 }
-if ((currentPlayer === 'x') && ($(event.target).html() === '')) {
-  $(event.target).css('background', 'transparent').text('x')
+
+const gameStart = value => {
+  gameBoard = [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ']
+  currentPlayer = 'x'
+  $('.draw-bar').hide()
+  $('.results').show()
+}
+
+const onGamesHistory = event => {
+  event.preventDefault()
+  // console.log('get all games works')
+  api.GamesHistory()
+    .then(ui.onGamesHistorySuccess)
+    .catch(ui.onGamesHistoryFailure)
+}
+
+// getting a single is not required?
+// const onGetAGame = event => {
+//   event.preventDefault()
+//   // console.log('get a game works')
+//   api.getAGame()
+//     .then(ui.onGetAGameSuccess)
+//     .catch(ui.onGetAGameFailure)
+// }
+
+const onUpdateMove = event => {
+api.updateMove()
+    .then(ui.onUpdateGameSuccess)
+    .catch(ui.onUpdateGameFailure)
+  // console.log('onUpdateMove works')
 }
 
 const addHandlers = event => {
@@ -257,16 +229,24 @@ const addHandlers = event => {
   $('#sign-in').on('submit', onSignIn)
   $('#change-password').on('submit', onChangePassword)
   $('#sign-out').on('submit', onsignOut)
-  $('#create-new-game').on('submit', onNewGame)
-  $('.box').on('click', onUserMove)
+  $('#new-game').on('submit', onNewGame)
+  $('#games-history').on('submit', onGamesHistory)
+  // $('.box').on('click', gamePlay)
 }
 
 module.exports = {
   addHandlers,
-  // tieGame,
+  switchPlayer,
   gamePlay,
   gameBoard,
   winnerWinner,
-  // gameOver,
-  checkForDraw
+  checkForDraw,
+  onSignIn,
+  onSignUp,
+  onChangePassword,
+  onSignOut,
+  onCreateGame,
+  onGetAllGames,
+  onUpdateMove,
+  onStartGame
 }
