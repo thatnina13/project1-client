@@ -21,6 +21,7 @@ const onFailure = message => {
 }
 
 const onSignUpSuccess = () => {
+  console.log('user was stored', store.user)
   onSuccess('Mozel Tov! you successfuly signed up! Now, sign in!')
 }
 
@@ -44,7 +45,7 @@ const onchangePasswordSuccess = () => {
   onSuccess('Well Done!')
 }
 
-const onchangePasswordSuccessFailure = () => {
+const onchangePasswordFailure = () => {
   onFailure('..try again..')
 }
 const onsignOutSuccess = () => {
@@ -60,6 +61,7 @@ const onNewGameSuccess = (res) => {
   store.game = res.game
   console.log('new game', store.game)
   onSuccess('you have a new game!')
+  $('.after-creategame').show()
 }
 // remember for later- store.game.ID
 
@@ -73,7 +75,7 @@ module.exports = {
   onSignInSuccess,
   onSignInFailure,
   onchangePasswordSuccess,
-  onchangePasswordSuccessFailure,
+  onchangePasswordFailure,
   onsignOutSuccess,
   onsignOutFailure,
   onNewGameSuccess

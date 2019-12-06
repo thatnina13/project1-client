@@ -9,6 +9,10 @@
 const authEvents = require('./auth/events')
 
 $(() => {
+  // $('.gbrow').on('click', authEvents.gamePlay)
+  // $('.bs').on('click', events.boardArray)
   authEvents.addHandlers()
-  $('.tie_message').hide()
+  $('.after-auth').hide()
+  $('.gameBoard').hide()
+  $('.status').text('')
 })

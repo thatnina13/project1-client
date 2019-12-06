@@ -20,7 +20,7 @@ body {
   max-width: calc(100vh - 75px);
 }
 
-.bs {
+.gbrow {
   border-bottom: 1px solid black;
   border-right: 1px solid black;
   display: flex;
@@ -31,11 +31,11 @@ body {
   font-size: 100px;
 }
 
-.bs:nth-child(3n) {
+.gbrow:nth-child(3n) {
   border-right: 0;
 }
 
-.bs:nth-last-child(-1n + 3) {
+.gbrow:nth-last-child(-1n + 3) {
   border-bottom: 0;
 }
 
