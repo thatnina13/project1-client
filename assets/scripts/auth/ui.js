@@ -22,7 +22,7 @@ const onFailure = message => {
 
 const onSignUpSuccess = () => {
   console.log('user was stored', store.user)
-  onSuccess('Mozel Tov! you successfuly signed up! Now, sign in!')
+  onSuccess('Mozel Tov! you successfuly signed up! Now, sign in to start playing!')
 }
 
 const onSignUpFailure = () => {
@@ -31,25 +31,25 @@ const onSignUpFailure = () => {
 const onSignInSuccess = (responsedata) => {
   store.user = responsedata.user
   console.log('user was stored', store.user)
-  onSuccess('Oppa! you are in the mainframe!!')
+  onSuccess('Welcome to the big show. To play a game, click Create New Game!')
   // show anything with the CSS class of after auth
   // hide anything with the CSS class of after aut
   $('.after-auth').show()
   $('.before-auth').hide()
 }
 
-const onSignInFailure = () => {
-  onFailure('Try again, ya maniac')
-}
+// const onSignInFailure = () => {
+//   onFailure('Try again, ya maniac')
+// }
 const onchangePasswordSuccess = () => {
-  onSuccess('Well Done!')
+  onSuccess('Well Done your password has been changed')
 }
 
 const onchangePasswordFailure = () => {
-  onFailure('..try again..')
+  onFailure('..your password remains unchanged, give it another go..')
 }
 const onsignOutSuccess = () => {
-  onSuccess('Adios')
+  onSuccess('Keep the change ya filthy animal')
   // return to before authEvents
   // we need to delete the token
   // the store no longer knows who we are
@@ -66,7 +66,7 @@ const onNewGameSuccess = (res) => {
 // remember for later- store.game.ID
 
 const onsignOutFailure = () => {
-  onFailure('something went wrong')
+  onFailure('something went wrong, now you are trapped here')
 }
 
 const ongetGamesSuccess = () => {
@@ -74,20 +74,24 @@ const ongetGamesSuccess = () => {
   onSuccess('Total games played: ' + store.games.length)
 }
 
-const ongetGamesSuccessFailure = (store) => {
-  onFailure('Failed to get gameing history!')
+const ongetGamesFailure = () => {
+  onFailure('no luck cheif, try again')
+}
+const onNewGameFailure = () => {
+  onFailure('NO games for you! try again')
 }
 
 module.exports = {
   onSignUpSuccess,
   onSignUpFailure,
   onSignInSuccess,
-  onSignInFailure,
+  // onSignInFailure,
   onchangePasswordSuccess,
   onchangePasswordFailure,
   onsignOutSuccess,
   onsignOutFailure,
   onNewGameSuccess,
+  onNewGameFailure,
   ongetGamesSuccess,
-  ongetGamesSuccessFailure
+  ongetGamesFailure
 }

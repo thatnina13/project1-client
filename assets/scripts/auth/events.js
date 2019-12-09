@@ -3,7 +3,7 @@
 const api = require('./api.js')
 const ui = require('./ui.js')
 const getFormFeilds = require('../../../lib/get-form-fields.js')
-// const store = require('../store')
+// const store = require('./store')
 // const store = require('./store.js')
 
 const onSignUp = function (event) {
