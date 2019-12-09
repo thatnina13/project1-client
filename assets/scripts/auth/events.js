@@ -1,28 +1,31 @@
 'use strict'
 
-const api = require('./api')
-const ui = require('./ui')
+const api = require('./api.js')
+const ui = require('./ui.js')
 const getFormFeilds = require('../../../lib/get-form-fields.js')
-const store = require('../store.js')
+// const store = require('./store')
+// const store = require('./store.js')
 
 const onSignUp = function (event) {
   event.preventDefault()
+  console.log('user signed up')
 
   const form = event.target
   const formData = getFormFeilds(form)
 
-  api.signUp(formData)
+  api.SignUp(formData)
     .then(ui.onSignUpSuccess)
     .catch(ui.onSignUpFailure)
 }
 
 const onSignIn = function (event) {
   event.preventDefault()
+  console.log('user signed in')
 
   const form = event.target
   const formData = getFormFeilds(form)
 
-  api.signIn(formData)
+  api.SignIn(formData)
     .then(ui.onSignInSuccess)
     .catch(ui.onSignInFailure)
 }
@@ -33,29 +36,14 @@ const onChangePassword = event => {
   const form = event.target
   const formData = getFormFeilds(form)
 
-  api.changePassword(formData)
-    .then(ui.onchangePasswordSuccess)
-    .catch(ui.onchangePasswordFailure)
+  api.ChangePassword(formData)
+    .then(ui.onChangePasswordSuccess)
+    .catch(ui.onChangePasswordFailure)
 }
 
-const onNewGame = event => {
-  event.preventDefault()
-
-  const form = event.target
-  const formData = getFormFeilds(form)
-
-  api.newGame(formData)
-    .then((res) => {
-      console.log('user started new game', res)
-      ui.onNewGameSuccess(res)
-      // in ui file create onsuccess message for new game creation
-      // also clear and show tic toe board
-    })
-}
-const onsignOut = event => {
-  event.preventDefault()
-
-  api.signOut()
+const onSignOut = event => {
+  event.Default()
+  api.SignOut()
     .then((res) => {
       console.log('server sent sign out response', res)
     })
@@ -66,207 +54,174 @@ let currentPlayer = '✕'
 const switchPlayer = () => {
   if (currentPlayer === 'o') {
     currentPlayer = 'x'
-    $('.message').text("Player X's move")
+    $('.message').html("Player X's move")
     // console.log('player os move')
   } else {
     currentPlayer = 'o'
-    $('.message').text("Player O's move")
+    $('.message').html("Player O's move")
     // console.log('player xs move')
   }
 }
 
-const cellTaken = $box => {
-  // there is is an X or O invalid move
-  // returns true or false
-  return $box.text() !== ''
-  // debugger
-}
-
-const onUserMove = (event) => {
-  console.log('click')
-  const $box = $(event.target)
-  console.log('$box is', $box)
-  $box.attr('id')
-  console.log('$box.attr is', $box.attr('id'))
-  // if (cellTaken($box) !== '') {
-    if ($(event.target).text() !== '') {
-    $('.message').text(`Invalid move, try again`)
-  } else {
-    playerIndex($box.attr('id'), currentPlayer)
-    // winnerWinner(store.gameBoard)
-    checkForDraw(gameBoard)
-    console.log(gameBoard)
-    // if (gameOver === true) {
-    //   $('.box').off('click', onUserMove)
-  }
-
-  // add currentplayer to correct index of gameBoard
-  // call check win function
-  // call check tie function
-  // if none of these are true keep playing
-  switchPlayer()
-  $box.css('background', 'transparent').text(currentPlayer)
-}
-// const onUserMove = (event) => {
-//   console.log('click')
-//   const $box = event.target.id
-//   console.log(event.target.id)
-//   console.log('box is ' + $box)
-//   console.log(gameBoard)
-//   // $box.attr()
-// if ((currentPlayer === 'x') && $(event.target).text() === ' ') {
-//   $(event.target).text('x')
-//   playerIndex($box, 'x')
-//  }
-// }
-
-  // if (cellTaken($box)) {
-  //   $('.message').text(`Invalid move, try again`)
-  // } else {
-  //   playerIndex($box, currentPlayer)
-  //   // winnerWinner(store.gameBoard)
-  //   checkForDraw(gameBoard)
-  //   console.log(gameBoard)
-    // if (gameOver === true) {
-    //   $('.box').off('click', onUserMove)
-  // }
-
-  // add currentplayer to correct index of gameBoard
-  // call check win function
-  // call check tie function
-  // if none of these are true keep playing
-//   switchPlayer()
-//   $box.css('background', 'transparent').text(currentPlayer)
-// }
-
-
-const gameBoard = [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ']
-//
-
-const playerIndex = (box, currentPlayer) => {
-  gameBoard.splice(box, 1, currentPlayer)
-}
-
-const tiedUp = currentElement => {
-  return currentElement !== ''
-}
-
-// const tieGame = gameBoard => {
-//   if (gameBoard.every(tiedUp)) {
-//     console.log("it's a tie")
-//     $('.tie_message').text("Hats off to both of you! It's a tie!!!")
-//     // store.game.over = true
-//   }
-// }
-
-const checkForDraw = gameBoard => {
-  if ((gameBoard[0] !== ' ') && (gameBoard[1] !== ' ') && (gameBoard[2] !== ' ') && (gameBoard[3] !== ' ') && (gameBoard[4] !== ' ') && (gameBoard[5] !== ' ') && (gameBoard[6] !== ' ') && (gameBoard[7] !== ' ') && (gameBoard[8] !== ' ')) {
-    console.log('DRAW WORKS')
-    // $('.draw-bar').html('Draw').show()
-    $('.tie_message').show()
-  }
-}
-
-
-// const gameOver = gameBoard => {
-//   if (winnerWinner === true || tieGame === true) {
-//     console.log('game over')
-//     $('.box').off('click', onUserMove)
-//   }
-// }
-
-const winnerWinner = (gameBoard) => {
-  // const gameBoard = store.gameBoard
-  if (gameBoard[0] === 'X' && gameBoard[1] === 'X' && gameBoard[2] === 'X') {
-    console.log('x is the winner')
-    $('.X_winning_message').html(`Player X is a lean mean tic tac toe machine`)
-    // store.game.over = true
-  } else if (gameBoard[3] === 'X' && gameBoard[4] === 'X' && gameBoard[5] === 'X') {
-    $('.X_winning_message').html(`Player X is a lean mean tic tac toe machine`)
-    // store.game.over = true
-  } else if (gameBoard[6] === 'X' && gameBoard[7] === 'X' && gameBoard[8] === 'X') {
-    $('.X_winning_message').html(`Player X is a lean mean tic tac toe machine`)
-    // store.game.over = true
-  } else if (gameBoard[0] === 'X' && gameBoard[3] === 'X' && gameBoard[6] === 'X') {
-    $('.X_winning_message').html(`Player X is a lean mean tic tac toe machine`)
-    // store.game.over = true
-  } else if (gameBoard[1] === 'X' && gameBoard[4] === 'X' && gameBoard[7] === 'X') {
-    $('.X_winning_message').html(`Player X is a lean mean tic tac toe machine`)
-    // store.game.over = true
-  } else if (gameBoard[2] === 'X' && gameBoard[8] === 'X' && gameBoard[5] === 'X') {
-    $('.X_winning_message').html(`Player X is a lean mean tic tac toe machine`)
-    // store.game.over = true
-  } else if (gameBoard[0] === 'X' && gameBoard[4] === 'X' && gameBoard[8] === 'X') {
-    $('.X_winning_message').html(`Player X is a lean mean tic tac toe machine`)
-    // store.game.over = true
-  } else if (gameBoard[2] === 'X' && gameBoard[4] === 'X' && gameBoard[6] === 'X') {
-    $('.X_winning_message').html(`Player X is a lean mean tic tac toe machine`)
-    // store.game.over = true
-  } else if (gameBoard[0] === 'O' && gameBoard[1] === 'O' && gameBoard[2] === 'O') {
-    $('.0_winning_message').html(`Player 0 is a rank sentimentalist and tic tac toe master`)
-    // store.game.over = true
-  } else if (gameBoard[3] === 'O' && gameBoard[4] === 'O' && gameBoard[5] === 'O') {
-    $('.0_winning_message').html(`Player 0 is a rank sentimentalist and tic tac toe master`)
-    // store.game.over = true
-  } else if (gameBoard[6] === 'O' && gameBoard[7] === 'O' && gameBoard[8] === 'O') {
-    $('.0_winning_message').html(`Player 0 is a rank sentimentalist and tic tac toe master`)
-    // store.game.over = true
-  } else if (gameBoard[0] === 'O' && gameBoard[3] === 'O' && gameBoard[6] === 'O') {
-    $('.0_winning_message').html(`Player 0 is a rank sentimentalist and tic tac toe master`)
-    store.game.over = true
-  } else if (gameBoard[1] === 'O' && gameBoard[4] === 'O' && gameBoard[7] === 'O') {
-    $('.0_winning_message').html(`Player 0 is a rank sentimentalist and tic tac toe master`)
-    // store.game.over = true
-  } else if (gameBoard[2] === 'O' && gameBoard[8] === 'O' && gameBoard[5] === 'O') {
-    $('.0_winning_message').html(`Player 0 is a rank sentimentalist and tic tac toe master`)
-    // store.game.over = true
-  } else if (gameBoard[0] === 'O' && gameBoard[4] === 'O' && gameBoard[8] === 'O') {
-    $('.0_winning_message').html(`Player 0 is a rank sentimentalist and tic tac toe master`)
-    // store.game.over = true
-  } else if (gameBoard[2] === 'O' && gameBoard[4] === 'O' && gameBoard[6] === 'O') {
-    $('.0_winning_message').html(`Player 0 is a rank sentimentalist and tic tac toe master`)
-    // store.game.over = true
-  }
+let gameBoard = [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ']
+let gameOver = false
+const gameStart = value => {
+  gameBoard = [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ']
+  currentPlayer = 'x'
+  $('.draw-bar').hide()
+  $('.results').show()
 }
 
 const gamePlay = event => {
-  event.preventDefault()
+  const gbrowNumId = event.target.id
+  // console.log('user clicked a square' + gbrowNumId)
+  // $('#message').text('To play, please create a new game')
+  // const gbrowNumId = () => gbrowId.replace('gbrow', '')
   if (gameOver === false) {
-    const id = event.target.id
-    playerIndex(id, currentPlayer)
-    api.updateGame(id, currentPlayer)
-  } else if ((currentPlayer === 'x') && ($(event.target).html() === '')) {
-    // tieGame(store.gameBoard)
-    winnerWinner(store.gameBoard)
-    switchPlayer()
-  } else if ((currentPlayer === 'o') && ($(event.target).html() === '')) {
-    // tieGame(store.gameBoard)
-    winnerWinner(store.gameBoard)
-    switchPlayer()
+    if ((currentPlayer === 'x') && ($(event.target).html() === '')) {
+      $(event.target).html('x')
+      console.log('player x made move, index:' + gbrowNumId)
+      // console.log(gbrowNumId)
+      $('.results').html('Turn: o')
+      gameBoard[gbrowNumId] = currentPlayer
+      // console.log('BOARD ARRAY IS', gameBoard)
+      winnerWinner(gameBoard)
+      api.UpdateMove(gbrowNumId, currentPlayer)
+      switchPlayer()
+      // checkForDraw(gameBoard)
+    } else if ((currentPlayer === 'o') && ($(event.target).text() === '')) {
+      $(event.target).html('o')
+      console.log('player o made move, index:' + gbrowNumId)
+      // console.log(gbrowNumId)
+      $('.results').html('Turn: X')
+      gameBoard[gbrowNumId] = currentPlayer
+
+      winnerWinner(gameBoard)
+
+      api.UpdateMove(gbrowNumId, currentPlayer)
+      switchPlayer()
+    } else {
+      $('#message').text('Invalid move! Try again ya maniac.')
+    }
   } else {
-    console.log('game play is working')
-    $('#game-message').text('Roll up the sidewalks, game over.')
+    $('#message').text('Game is over ya maniac.')
+    gamePlay()
   }
 }
-if ((currentPlayer === 'x') && ($(event.target).html() === '')) {
-  $(event.target).css('background', 'transparent').text('x')
+
+const winnerWinner = (gameBoard) => {
+  if (gameBoard[0] === 'x' && gameBoard[1] === 'x' && gameBoard[2] === 'x') {
+    gameOver = true
+    $('#message').text('x is the winner')
+  } else if (gameBoard[3] === 'x' && gameBoard[4] === 'x' && gameBoard[5] === 'x') {
+    gameOver = true
+    $('#message').text('x is the winner')
+  } else if (gameBoard[6] === 'x' && gameBoard[7] === 'x' && gameBoard[8] === 'x') {
+    gameOver = true
+    $('#message').text('x is the winner')
+  } else if (gameBoard[0] === 'x' && gameBoard[3] === 'x' && gameBoard[6] === 'x') {
+    gameOver = true
+    $('#message').text('x is the winner')
+  } else if (gameBoard[1] === 'x' && gameBoard[4] === 'x' && gameBoard[7] === 'x') {
+    gameOver = true
+    $('#message').text('x is the winner')
+  } else if (gameBoard[2] === 'x' && gameBoard[8] === 'x' && gameBoard[5] === 'x') {
+    gameOver = true
+    $('#message').text('x is the winner')
+  } else if (gameBoard[0] === 'x' && gameBoard[4] === 'x' && gameBoard[8] === 'x') {
+    gameOver = true
+    $('#message').text('x is the winner')
+  } else if (gameBoard[2] === 'x' && gameBoard[4] === 'x' && gameBoard[6] === 'x') {
+    gameOver = true
+    $('#message').text('x is the winner')
+  } else if (gameBoard[0] === 'o' && gameBoard[1] === 'o' && gameBoard[2] === 'o') {
+    gameOver = true
+    $('#message').text('o is the winner')
+  } else if (gameBoard[3] === 'o' && gameBoard[4] === 'o' && gameBoard[5] === 'o') {
+    gameOver = true
+    $('#message').text('o is the winner')
+  } else if (gameBoard[6] === 'o' && gameBoard[7] === 'o' && gameBoard[8] === 'o') {
+    gameOver = true
+    $('#message').text('o is the winner')
+  } else if (gameBoard[0] === 'o' && gameBoard[3] === 'o' && gameBoard[6] === 'o') {
+    gameOver = true
+    $('#message').text('o is the winner')
+  } else if (gameBoard[1] === 'o' && gameBoard[4] === 'o' && gameBoard[7] === 'o') {
+    gameOver = true
+    $('#message').text('o is the winner')
+  } else if (gameBoard[2] === 'o' && gameBoard[8] === 'o' && gameBoard[5] === 'o') {
+    gameOver = true
+    $('#message').text('o is the winner')
+  } else if (gameBoard[0] === 'o' && gameBoard[4] === 'o' && gameBoard[8] === 'o') {
+    gameOver = true
+    $('#message').text('o is the winner')
+  } else if (gameBoard[2] === 'o' && gameBoard[4] === 'o' && gameBoard[6] === 'o') {
+    gameOver = true
+    $('#message').text('o is the winner')
+  } else if ((gameBoard[0] !== ' ') && (gameBoard[1] !== ' ') && (gameBoard[2] !== ' ') && (gameBoard[3] !== ' ') && (gameBoard[4] !== ' ') && (gameBoard[5] !== ' ') && (gameBoard[6] !== ' ') && (gameBoard[7] !== ' ') && (gameBoard[8] !== ' ')) {
+    gameOver = true
+    $('#message').text('tie')
+  }
+}
+
+// const clearGbrow = (gameBoard) => {
+//   if gameOver === true
+//   let gameBoard = [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ']
+// }
+
+const onNewGame = event => {
+  event.preventDefault()
+  // console.log('create game button works')
+  $('.gbrow')
+    .html('')
+    .show()
+    // .clear(gameBoard)
+  $('.results').html(' ')
+  // let gameBoard = [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ']
+  // store.game.clear(store.game)
+  gameStart()
+  // gamePlay()
+  console.log(gameBoard)
+  // NEED TO INCLUDE GAME START HERE?
+  api.NewGame()
+    .then(ui.onNewGameSuccess)
+    .catch(ui.onNewGameFailure)
+}
+
+// if (gameOver === true) {
+//   const gameBoard = [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ']
+//   onNewGame()
+// }
+
+const ongetGames = event => {
+  event.preventDefault()
+  console.log('get all games works')
+  api.getGamesSuccess()
+    .then(ui.ongetGamesSuccess)
+    .catch(ui.ongetGamesSuccess)
 }
 
 const addHandlers = event => {
   $('#sign-up').on('submit', onSignUp)
   $('#sign-in').on('submit', onSignIn)
   $('#change-password').on('submit', onChangePassword)
-  $('#sign-out').on('submit', onsignOut)
-  $('#create-new-game').on('submit', onNewGame)
-  $('.box').on('click', onUserMove)
+  $('#sign-out').on('submit', onSignOut)
+  $('#new-game').on('click', onNewGame)
+  $('#get-games').on('click', ongetGames)
+  $('.gbrow').on('click', gamePlay)
 }
 
 module.exports = {
   addHandlers,
-  // tieGame,
+  switchPlayer,
   gamePlay,
   gameBoard,
+  gameStart,
   winnerWinner,
-  // gameOver,
-  checkForDraw
+  onSignIn,
+  onSignUp,
+  onChangePassword,
+  onSignOut,
+  onNewGame,
+  ongetGames
 }

@@ -3,7 +3,7 @@
 const config = require('../config')
 const store = require('../store')
 
-const signUp = formData => {
+const SignUp = formData => {
   return $.ajax({
     url: config.apiUrl + '/sign-up',
     method: 'POST',
@@ -11,7 +11,7 @@ const signUp = formData => {
   })
 }
 
-const signIn = formData => {
+const SignIn = formData => {
   return $.ajax({
     url: config.apiUrl + '/sign-in',
     method: 'POST',
@@ -19,7 +19,7 @@ const signIn = formData => {
   })
 }
 
-const changePassword = formData => {
+const ChangePassword = formData => {
   return $.ajax({
     url: config.apiUrl + '/change-password',
     method: 'PATCH',
@@ -29,7 +29,7 @@ const changePassword = formData => {
     data: formData
   })
 }
-const signOut = () => {
+const SignOut = () => {
   return $.ajax({
     url: config.apiUrl + '/sign-out',
     method: 'DELETE',
@@ -38,7 +38,7 @@ const signOut = () => {
     }
   })
 }
-const newGame = formData => {
+const NewGame = formData => {
   return $.ajax({
     url: config.apiUrl + '/games',
     method: 'POST',
@@ -49,7 +49,7 @@ const newGame = formData => {
   })
 }
 //
-const updateGame = (id, currentPlayer) => {
+const UpdateMove = (id, player) => {
   return $.ajax({
     url: config.apiUrl + '/games/' + store.game.id,
     method: 'PATCH',
@@ -60,7 +60,7 @@ const updateGame = (id, currentPlayer) => {
       game: {
         cell: {
           index: id,
-          value: currentPlayer
+          value: player
         },
         over: false
       }
@@ -68,9 +68,9 @@ const updateGame = (id, currentPlayer) => {
   })
 }
 
-const showGames = () => {
+const getGames = (store) => {
   return $.ajax({
-    url: config.apiUrl + '/games',
+    url: config.apiUrl + '/games' + store.game.id,
     method: 'GET',
     headers: {
       Authorization: `Token token=${store.user.token}`
@@ -79,11 +79,11 @@ const showGames = () => {
 }
 
 module.exports = {
-  signUp,
-  signIn,
-  changePassword,
-  signOut,
-  newGame,
-  showGames,
-  updateGame
+  SignUp,
+  SignIn,
+  ChangePassword,
+  SignOut,
+  NewGame,
+  getGames,
+  UpdateMove
 }
