@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>TicTacTina</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Do not add `link` tags-->
+  <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+
+  <!-- Do not add `script` tags-->
+  <script src="public/vendor.js" type="text/javascript" charset="utf-8" defer></script>
+  <script src="public/application.js" type="text/javascript" charset="utf-8" defer></script>
+</head>
+
+<body>
+  <h1>Tick Tac Tina</h1>
+
+  <p id="message"></p>
+<section class="before-auth">
+  <h2>Sign Up</h2>
+  <form id="sign-up">
+    <input type="email" name="credentials[email]" placeholder="email">
+    <input type="password" name="credentials[password]" placeholder="password">
+    <input type="password" name="credentials[password_confirmation]" placeholder="password confirmation">
+    <button class="btn btn-primary">Submit</button>
+  </form>
+
+  <h2>Sign In</h2>
+  <form id="sign-in">
+    <input type="email" name="credentials[email]" placeholder="Email">
+    <input type="password" name="credentials[password]" placeholder="Password">
+    <button class="btn btn-primary">Submit</button>
+  </form>
+</section>
+
+<!-- <section class="after-auth"> -->
+ <section class="after-auth">
+  <h4>Change Password</h4>
+  <form id="change-password">
+    <input type="password" name="passwords[old]" placeholder="old password">
+    <input type="password" name="passwords[new]" placeholder="new password">
+    <button class="btn">Submit</button>
+  </form>
+
+  <form id="sign-out">
+    <button class="btn">Sign Out</button>
+  </form>
+
+  <form id="new-game">
+    <button class="btn">create new game</button>
+  </form>
+
+  <form id="get-games">
+    <button class="btn">Get Gaming History</button>
+  </form>
+
+<!-- <section class="before-creategame"> -->
+<section class="container-fluid">
+  <!-- <section class= "after-creategame"> -->
+        <div class="row h-100 board">
+          <div class="col-4 gbrow" id="0"></div>
+          <div class="col-4 gbrow" id="1"></div>
+          <div class="col-4 gbrow" id="2"></div>
+          <div class="col-4 gbrow" id="3"></div>
+          <div class="col-4 gbrow" id="4"></div>
+          <div class="col-4 gbrow" id="5"></div>
+          <div class="col-4 gbrow" id="6"></div>
+          <div class="col-4 gbrow" id="7"></div>
+          <div class="col-4 gbrow" id="8"></div>
+        </div>
+      </section>
+    <!-- </section> -->
+     <!-- </section> -->
+    </section>
+    </body>
+</html>
