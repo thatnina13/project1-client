@@ -1,8 +1,10 @@
 'use strict'
 
-const api = require('./api')
-const ui = require('./ui')
+const api = require('./api.js')
+const ui = require('./ui.js')
 const getFormFeilds = require('../../../lib/get-form-fields.js')
+const store = require('../store')
+// const store = require('./store.js')
 
 const onSignUp = function (event) {
   event.preventDefault()
@@ -53,11 +55,11 @@ const switchPlayer = () => {
   if (currentPlayer === 'o') {
     currentPlayer = 'x'
     $('.message').html("Player X's move")
-    console.log('player os move')
+    // console.log('player os move')
   } else {
     currentPlayer = 'o'
     $('.message').html("Player O's move")
-    console.log('player xs move')
+    // console.log('player xs move')
   }
 }
 
@@ -72,13 +74,15 @@ const gameStart = value => {
 
 const gamePlay = event => {
   const gbrowNumId = event.target.id
-  console.log('user clicked a square', gbrowNumId)
+  // console.log('user clicked a square' + gbrowNumId)
+  // $('#message').text('To play, please create a new game')
   // const gbrowNumId = () => gbrowId.replace('gbrow', '')
   if (gameOver === false) {
     if ((currentPlayer === 'x') && ($(event.target).html() === '')) {
       $(event.target).html('x')
-      console.log('player x made move')
-      $('.results').html('Turn: X')
+      console.log('player x made move, index:' + gbrowNumId)
+      // console.log(gbrowNumId)
+      $('.results').html('Turn: o')
       gameBoard[gbrowNumId] = currentPlayer
       // console.log('BOARD ARRAY IS', gameBoard)
       winnerWinner(gameBoard)
@@ -87,7 +91,8 @@ const gamePlay = event => {
       // checkForDraw(gameBoard)
     } else if ((currentPlayer === 'o') && ($(event.target).text() === '')) {
       $(event.target).html('o')
-      console.log('player o made move')
+      console.log('player o made move, index:' + gbrowNumId)
+      // console.log(gbrowNumId)
       $('.results').html('Turn: X')
       gameBoard[gbrowNumId] = currentPlayer
 
@@ -96,10 +101,11 @@ const gamePlay = event => {
       api.UpdateMove(gbrowNumId, currentPlayer)
       switchPlayer()
     } else {
-      $('#message').text('Invalid move!  Try again ya maniac.')
+      $('#message').text('Invalid move! Try again ya maniac.')
     }
   } else {
     $('#message').text('Game is over ya maniac.')
+    gamePlay()
   }
 }
 
@@ -158,10 +164,14 @@ const winnerWinner = (gameBoard) => {
   }
 }
 
+// const clearGbrow = (gameBoard) => {
+//   if gameOver === true
+//   let gameBoard = [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ']
+// }
+
 const onNewGame = event => {
   event.preventDefault()
   // console.log('create game button works')
-  // gameBoard.clear(gameBoard)
   $('.gbrow')
     .html('')
     .show()
@@ -170,19 +180,25 @@ const onNewGame = event => {
   // let gameBoard = [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ']
   // store.game.clear(store.game)
   gameStart()
-  // console.log(gameBoard)
+  // gamePlay()
+  console.log(gameBoard)
   // NEED TO INCLUDE GAME START HERE?
   api.NewGame()
     .then(ui.onNewGameSuccess)
     .catch(ui.onNewGameFailure)
 }
 
-const onGamesHistory = event => {
+// if (gameOver === true) {
+//   const gameBoard = [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ']
+//   onNewGame()
+// }
+
+const ongetGames = event => {
   event.preventDefault()
-  // console.log('get all games works')
-  api.GamesHistory()
-    .then(ui.onGamesHistorySuccess)
-    .catch(ui.onGamesHistoryFailure)
+  console.log('get all games works')
+  api.getGamesSuccess()
+    .then(ui.ongetGamesSuccess)
+    .catch(ui.ongetGamesSuccess)
 }
 
 const addHandlers = event => {
@@ -190,8 +206,8 @@ const addHandlers = event => {
   $('#sign-in').on('submit', onSignIn)
   $('#change-password').on('submit', onChangePassword)
   $('#sign-out').on('submit', onSignOut)
-  $('#new-game').on('submit', onNewGame)
-  $('#games-history').on('submit', onGamesHistory)
+  $('#new-game').on('click', onNewGame)
+  $('#get-games').on('click', ongetGames)
   $('.gbrow').on('click', gamePlay)
 }
 
@@ -207,5 +223,5 @@ module.exports = {
   onChangePassword,
   onSignOut,
   onNewGame,
-  onGamesHistory
+  ongetGames
 }

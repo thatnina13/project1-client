@@ -68,9 +68,9 @@ const UpdateMove = (id, player) => {
   })
 }
 
-const GamesHistory = () => {
+const getGames = (store) => {
   return $.ajax({
-    url: config.apiUrl + '/games',
+    url: config.apiUrl + '/games' + store.game.id,
     method: 'GET',
     headers: {
       Authorization: `Token token=${store.user.token}`
@@ -84,6 +84,6 @@ module.exports = {
   ChangePassword,
   SignOut,
   NewGame,
-  GamesHistory,
+  getGames,
   UpdateMove
 }

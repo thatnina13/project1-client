@@ -59,14 +59,23 @@ const onsignOutSuccess = () => {
 }
 const onNewGameSuccess = (res) => {
   store.game = res.game
-  console.log('new game', store.game)
+  console.log('new game', store.game.id)
   onSuccess('you have a new game!')
-  $('.after-creategame').show()
+  $('.after-auth').show()
 }
 // remember for later- store.game.ID
 
 const onsignOutFailure = () => {
   onFailure('something went wrong')
+}
+
+const ongetGamesSuccess = () => {
+  console.log('games played', store.games)
+  onSuccess('Total games played: ' + store.games.length)
+}
+
+const ongetGamesSuccessFailure = (store) => {
+  onFailure('Failed to get gameing history!')
 }
 
 module.exports = {
@@ -78,5 +87,7 @@ module.exports = {
   onchangePasswordFailure,
   onsignOutSuccess,
   onsignOutFailure,
-  onNewGameSuccess
+  onNewGameSuccess,
+  ongetGamesSuccess,
+  ongetGamesSuccessFailure
 }
